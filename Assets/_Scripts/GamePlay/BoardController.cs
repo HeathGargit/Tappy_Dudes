@@ -130,4 +130,16 @@ public class BoardController : MonoBehaviour {
         Destroy(m_Rows[0]);
         m_Rows.RemoveAt(0);
     }
+
+    public void ResetBoard()
+    {
+        foreach(GameObject row in m_Rows)
+        {
+            Destroy(row);
+        }
+
+        m_LastRowCreated = -6;
+        m_BoardMovementNodes = new List<NodeInfo>();
+        m_Rows = new List<GameObject>();
+    }
 }
