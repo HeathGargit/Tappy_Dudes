@@ -30,6 +30,9 @@ public class GameController : MonoBehaviour {
     private GameStates m_GameState;
     public GameObject m_Menu;
 
+    //Swipe control stuff.
+    public SwipeController m_SwipeController;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -107,8 +110,27 @@ public class GameController : MonoBehaviour {
             }
         }
 
+        //Swipe Input
+        m_SwipeController.ProcessTouchInput();
+        if (m_SwipeController.SwipeLeft)
+        {
+            nextNode = m_BoardController.FindNode(m_CurrentNode.GridLocation + new Vector2Int(-1, 0));
+        }
+        if (m_SwipeController.SwipeRight)
+        {
+            nextNode = m_BoardController.FindNode(m_CurrentNode.GridLocation + new Vector2Int(1, 0));
+        }
+        if (m_SwipeController.SwipeDown)
+        {
+            nextNode = m_BoardController.FindNode(m_CurrentNode.GridLocation + new Vector2Int(0, -1));
+        }
+        if (m_SwipeController.SwipeUp)
+        {
+            nextNode = m_BoardController.FindNode(m_CurrentNode.GridLocation + new Vector2Int(0, 1));
+        }
+
         //if there is a node to move to
-        if(nextNode != null)
+        if (nextNode != null)
         {
             //if the player is not already jumping
             if(!m_Player.GetComponent<DudeController>().IsJumping)
