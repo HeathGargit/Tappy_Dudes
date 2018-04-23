@@ -33,6 +33,9 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+
+        //PlayerPrefs.DeleteAll();
+        //Application.Quit();
         //set up gameobject references
         m_BoardController = m_Board.GetComponent<BoardController>();
         m_CameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
