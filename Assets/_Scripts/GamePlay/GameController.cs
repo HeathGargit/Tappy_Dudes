@@ -33,6 +33,9 @@ public class GameController : MonoBehaviour {
     //Swipe control stuff.
     public SwipeController m_SwipeController;
 
+    //Audio stuff
+    public AudioSource m_JumpSound;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -139,6 +142,9 @@ public class GameController : MonoBehaviour {
                 m_Player.GetComponent<DudeController>().MoveTo(m_CurrentNode, nextNode);
                 //set the next node to the current node
                 m_CurrentNode = nextNode;
+
+                //play the jump sound
+                m_JumpSound.Play();
 
                 //check if we are increasing the score and/or cycling rows
                 if(nextNode.GridLocation.y > m_PlayerScore)

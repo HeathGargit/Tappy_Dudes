@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour {
 
     public void Awake()
     {
-        m_RespawnMin = 2.0f;
+        m_RespawnMin = 3.0f;
         m_RespawnMax = 6.0f;
         m_TimeToNextSpawn = Random.Range(m_RespawnMin, m_RespawnMax);
     }
@@ -33,6 +33,7 @@ public class EnemySpawner : MonoBehaviour {
         {
             m_MoveSpeed *= -1.0f;
             m_SpawnPoint.x *= -1.0f;
+            //m_EnemyType.gameObject.transform.Rotate(new Vector3(0, 1, 0), 180.0f);
         }
 
         SpawnEnemy();
@@ -43,6 +44,14 @@ public class EnemySpawner : MonoBehaviour {
         //instantiate the enemy
         GameObject thisEnemy = Instantiate(m_EnemyType, m_SpawnPoint, Quaternion.identity);
         thisEnemy.GetComponent<EnemyMovement>().Init(1.0f, m_MoveSpeed);
+        
+        
+        //if this enemy is moving reverse direction across the board, we need to rotate the transform to make it look like it's swimming forward.
+        if (m_MoveSpeed < 0)
+        {
+            thisEnemy.transform.Rotate(new Vector3(0, 1, 0), 180.0f);
+        }
+        
         //set parent to the row, so that when the row is destroyed, all the enemies on that row are destroyed.
         thisEnemy.gameObject.transform.parent = gameObject.transform;
     }

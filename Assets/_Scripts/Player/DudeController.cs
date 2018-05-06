@@ -82,7 +82,7 @@ public class DudeController : MonoBehaviour {
         
         if(other.tag == "Enemy")
         {
-            Debug.Log("Hit!");
+            //Debug.Log("Hit!");
             m_isPlayerAlive = false;
         }
     }
