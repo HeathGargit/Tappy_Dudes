@@ -226,6 +226,7 @@ public class GameController : MonoBehaviour {
         m_PlayerScore = StartingPos.GetComponent<NodeInfo>().GridLocation.y;
         m_CurrentNode = StartingPos.GetComponentInChildren<NodeInfo>();
         m_InactiveTime = 5.5f;
+        m_FurthestScoreProgress = 0;
 
         //disable the menu
         m_Menu.SetActive(false);
