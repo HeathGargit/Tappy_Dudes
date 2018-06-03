@@ -10,6 +10,8 @@ public class DudeController : MonoBehaviour {
     private float m_CurrentJumpProgress;
 
     private bool m_isPlayerAlive;
+    public GameObject m_Dudesplosion;
+    public GameObject m_CharacterModel;
 
     //read-only access to see if the player is currently jumping or not.
     public bool IsJumping
@@ -32,6 +34,8 @@ public class DudeController : MonoBehaviour {
             m_isPlayerAlive = value;
         }
     }
+
+    
 
     private void Start()
     {
@@ -84,6 +88,21 @@ public class DudeController : MonoBehaviour {
         {
             //Debug.Log("Hit!");
             m_isPlayerAlive = false;
+        }
+    }
+
+    public void DudeDeath()
+    {
+        GameObject explosion = Instantiate(m_Dudesplosion, gameObject.transform.position + transform.forward, Quaternion.identity);
+        m_CharacterModel.SetActive(false);
+        Destroy(explosion, 3.0f);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            DudeDeath();
         }
     }
 }

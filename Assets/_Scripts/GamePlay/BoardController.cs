@@ -63,12 +63,6 @@ public class BoardController : MonoBehaviour {
         //initialise the row
         thisRow.GetComponent<RowCreator>().Init(m_LaneBufferSize, m_LaneSize, m_LastRowCreated);
 
-        //if the row has enemies, 
-        if(thisRow.gameObject.GetComponent<EnemySpawner>() != null)
-        {
-            thisRow.gameObject.GetComponent<EnemySpawner>().Init(new Vector3(-(m_LaneSize + (m_LaneBufferSize * 2)) / 2, 0.5f, m_LastRowCreated), 1.0f + (Random.Range(0.0f,1.0f)));
-        }
-
         //set the board as the parent object
         thisRow.transform.SetParent(transform);
 

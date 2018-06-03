@@ -24,6 +24,9 @@ public class GameController : MonoBehaviour {
     //score tracking
     private int m_PlayerScore;
     public Text m_ScoreLabel;
+    private float m_InactiveTime;
+    private int m_FurthestScoreProgress;
+
 
     //game state stuff
     enum GameStates { Initialisation, Playing, GameOver};
@@ -35,6 +38,7 @@ public class GameController : MonoBehaviour {
 
     //Audio stuff
     public AudioSource m_JumpSound;
+    public AudioSource m_DeathSound;
 
 	// Use this for initialization
 	void Start ()
@@ -70,6 +74,8 @@ public class GameController : MonoBehaviour {
                 ProcessInput();
                 if(!m_Player.GetComponent<DudeController>().IsPlayerAlive)
                 {
+                    m_Player.GetComponent<DudeController>().DudeDeath();
+                    m_DeathSound.Play();
                     m_GameState = GameStates.GameOver;
                 }
                 break;
@@ -80,6 +86,28 @@ public class GameController : MonoBehaviour {
                 break;
             default:
                 break;
+        }
+
+        //check if they have moved too far backwards and kill dude if so
+        if(m_CurrentNode.GridLocation.y < (m_PlayerScore - 2))
+        {
+            m_Player.GetComponent<DudeController>().IsPlayerAlive = false;
+        }
+
+        m_InactiveTime -= Time.deltaTime;
+
+        //check if they havent moved to a new row forward for long enough.
+        if(m_PlayerScore > m_FurthestScoreProgress)
+        {
+            m_FurthestScoreProgress = m_PlayerScore;
+            m_InactiveTime = 5.5f;
+        }
+        else
+        {
+            if(m_InactiveTime < 0.0f)
+            {
+                m_Player.GetComponent<DudeController>().IsPlayerAlive = false;
+            }
         }
 	}
 
@@ -176,6 +204,7 @@ public class GameController : MonoBehaviour {
         m_CameraController.SetTarget(m_Player);
         m_PlayerScore = StartingPos.GetComponent<NodeInfo>().GridLocation.y;
         m_CurrentNode = StartingPos.GetComponentInChildren<NodeInfo>();
+        m_InactiveTime = 5.5f;
 
         //disable the menu
         m_Menu.SetActive(false);

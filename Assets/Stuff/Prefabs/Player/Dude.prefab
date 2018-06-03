@@ -182,3 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpTime: 0.25
+  m_Dudesplosion: {fileID: 1078703889639156, guid: b1dc065a82a9927428239e85c8980d8b,
+    type: 2}
+  m_CharacterModel: {fileID: 1748936483159518}

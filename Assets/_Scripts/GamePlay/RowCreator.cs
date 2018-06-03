@@ -22,7 +22,7 @@ public class RowCreator : MonoBehaviour {
         m_RowNodes = new List<NodeInfo>();
     }
 
-    void CreateRow(int buffersize, int lanesize, int RowYPos)
+    protected void CreateRow(int buffersize, int lanesize, int RowYPos)
     {
         int currentRowXPos = -((lanesize + (buffersize * 2)) / 2);
 
@@ -63,17 +63,24 @@ public class RowCreator : MonoBehaviour {
 
             currentRowXPos++;
         }
-
-        /*foreach (NodeInfo node in m_RowNodes)
-        {
-            Debug.Log(node.PosX + " " + node.PosY);
-        }*/
     }
 
 
-    public void Init(int buffersize, int lanesize, int rownumber)
+    public virtual void Init(int buffersize, int lanesize, int rownumber)
     {
         //m_RowNodes = new List<NodeInfo>();
         CreateRow(buffersize, lanesize, rownumber);
+    }
+
+    public void RemoveMovementNodeAt(int nodeXPos)
+    {
+        foreach(NodeInfo node in m_RowNodes)
+        {
+            if(node.GridLocation.x == nodeXPos)
+            {
+                m_RowNodes.Remove(node);
+                break;
+            }
+        }
     }
 }
