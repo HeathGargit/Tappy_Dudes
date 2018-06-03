@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/*---------------------------------------------------------
+File Name: RockSpawner.cs
+Purpose: Controls the spawning of rocks in a rock row.
+Author: Heath Parkes (gargit@gargit.net)
+Modified: 2018-06-03
+-----------------------------------------------------------
+Copyright 2018 AIE/HP
+---------------------------------------------------------*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +16,12 @@ public class RockSpawner : MonoBehaviour {
     //rock Game Object
     public GameObject m_RockType;
 
+    /// <summary>
+    /// sets initial variables.
+    /// </summary>
+    /// <param name="lanesize">width of the playable area</param>
+    /// <param name="lanebuffersize">each sides non-playable area</param>
+    /// <param name="RowYPos">number of the row this instance belongs to</param>
     public void Init(int lanesize, int lanebuffersize, int RowYPos)
     {
         //determine number of rocks to spawn

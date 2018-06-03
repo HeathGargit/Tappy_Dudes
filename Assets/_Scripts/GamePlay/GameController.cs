@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*---------------------------------------------------------
+File Name: Game Controller.cs
+Purpose: Controls the game, including gameplay states and player input.
+Author: Heath Parkes (gargit@gargit.net)
+Modified: 2018-06-03
+-----------------------------------------------------------
+Copyright 2018 AIE/HP
+---------------------------------------------------------*/
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,9 +52,10 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-
+        //these are in here because the unity player has issues when resolution is set in the inspector and changed after a build has been created.
         //PlayerPrefs.DeleteAll();
         //Application.Quit();
+
         //set up gameobject references
         m_BoardController = m_Board.GetComponent<BoardController>();
         m_CameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
@@ -71,11 +81,16 @@ public class GameController : MonoBehaviour {
                 break;
             //Playing
             case GameStates.Playing:
+                //process the player's input.
                 ProcessInput();
+                //check if the player is dead
                 if(!m_Player.GetComponent<DudeController>().IsPlayerAlive)
                 {
+                    //set the player as dead
                     m_Player.GetComponent<DudeController>().DudeDeath();
+                    //play the death sound
                     m_DeathSound.Play();
+                    //set the gamestate to game over
                     m_GameState = GameStates.GameOver;
                 }
                 break;
@@ -88,7 +103,8 @@ public class GameController : MonoBehaviour {
                 break;
         }
 
-        //check if they have moved too far backwards and kill dude if so
+        /* Game Losing Condition Checks*/
+        //check if they have moved too far backwards and kill player if so
         if(m_CurrentNode.GridLocation.y < (m_PlayerScore - 2))
         {
             m_Player.GetComponent<DudeController>().IsPlayerAlive = false;
@@ -111,7 +127,9 @@ public class GameController : MonoBehaviour {
         }
 	}
 
-    //process the frame's input
+    /// <summary>
+    /// processes the player's input from all controllers
+    /// </summary>
     private void ProcessInput()
     {
         //variable to store the next node being moved to
@@ -193,6 +211,9 @@ public class GameController : MonoBehaviour {
         m_ScoreLabel.text = m_PlayerScore.ToString();
     }
 
+    /// <summary>
+    /// Initialise the game parameters.
+    /// </summary>
     void InitGame()
     {
         //initialise the board
@@ -210,6 +231,9 @@ public class GameController : MonoBehaviour {
         m_Menu.SetActive(false);
     }
 
+    /// <summary>
+    /// reset the game back to it's initial state
+    /// </summary>
     public void ResetGame()
     {
         //reset the game components

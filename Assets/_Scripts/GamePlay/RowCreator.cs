@@ -1,14 +1,26 @@
-﻿using System.Collections;
+﻿/*---------------------------------------------------------
+File Name: RowCreator.cs
+Purpose: Creates a basic row for the board.
+Author: Heath Parkes (gargit@gargit.net)
+Modified: 2018-06-03
+-----------------------------------------------------------
+Copyright 2018 AIE/HP
+---------------------------------------------------------*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RowCreator : MonoBehaviour {
 
+    //set blocks to use in the inspector
     public GameObject m_StandardBlock;
     public GameObject m_BufferBlock;
 
+    //a list of the move-to-able nodes in the row
     private List<NodeInfo> m_RowNodes;
 
+    //accessor
     public List<NodeInfo> RowNodes
     {
         get
@@ -22,8 +34,15 @@ public class RowCreator : MonoBehaviour {
         m_RowNodes = new List<NodeInfo>();
     }
 
+    /// <summary>
+    /// Creates the row.
+    /// </summary>
+    /// <param name="buffersize">Size of non-playable area each side of lane</param>
+    /// <param name="lanesize">width of the lane</param>
+    /// <param name="RowYPos">Row number of this instance of the row</param>
     protected void CreateRow(int buffersize, int lanesize, int RowYPos)
     {
+        //set where to start creating blocks
         int currentRowXPos = -((lanesize + (buffersize * 2)) / 2);
 
         //Add left buffer blocks
@@ -65,19 +84,31 @@ public class RowCreator : MonoBehaviour {
         }
     }
 
-
+    /// <summary>
+    /// initialises/creates the row
+    /// </summary>
+    /// <param name="buffersize"></param>
+    /// <param name="lanesize"></param>
+    /// <param name="rownumber"></param>
     public virtual void Init(int buffersize, int lanesize, int rownumber)
     {
         //m_RowNodes = new List<NodeInfo>();
         CreateRow(buffersize, lanesize, rownumber);
     }
 
+    /// <summary>
+    /// Removes a movement node to mark that node as not-move-to-able
+    /// </summary>
+    /// <param name="nodeXPos"></param>
     public void RemoveMovementNodeAt(int nodeXPos)
     {
+        //check each row
         foreach(NodeInfo node in m_RowNodes)
         {
+            //if it's the node we cant move to
             if(node.GridLocation.x == nodeXPos)
             {
+                //remove the row and return
                 m_RowNodes.Remove(node);
                 break;
             }

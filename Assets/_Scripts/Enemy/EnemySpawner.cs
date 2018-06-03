@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/*---------------------------------------------------------
+File Name: EnemySpawner.cs
+Purpose: Controls the spawning of enemies in rows.
+Author: Heath Parkes (gargit@gargit.net)
+Modified: 2018-06-03
+-----------------------------------------------------------
+Copyright 2018 AIE/HP
+---------------------------------------------------------*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +31,11 @@ public class EnemySpawner : MonoBehaviour {
         m_TimeToNextSpawn = Random.Range(m_RespawnMin, m_RespawnMax);
     }
 
+    /// <summary>
+    /// Initialisation of enemy spawner.
+    /// </summary>
+    /// <param name="spawnPoint">Where to spawn enemy</param>
+    /// <param name="moveSpeed">Movement speed of enemy.</param>
     public void Init(Vector3 spawnPoint, float moveSpeed)
     {
         //init variables
@@ -36,9 +50,13 @@ public class EnemySpawner : MonoBehaviour {
             //m_EnemyType.gameObject.transform.Rotate(new Vector3(0, 1, 0), 180.0f);
         }
 
+        //spawn an initial enemy.
         SpawnEnemy();
     }
 
+    /// <summary>
+    /// Spawn an enemy now.
+    /// </summary>
     private void SpawnEnemy()
     {
         //instantiate the enemy

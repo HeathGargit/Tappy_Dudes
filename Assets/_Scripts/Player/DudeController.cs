@@ -1,14 +1,25 @@
-﻿using System.Collections;
+﻿/*---------------------------------------------------------
+File Name: DudeController.cs
+Purpose: Controls player specific systems needed for gameplay.
+Author: Heath Parkes (gargit@gargit.net)
+Modified: 2018-06-03
+-----------------------------------------------------------
+Copyright 2018 AIE/HP
+---------------------------------------------------------*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DudeController : MonoBehaviour {
 
+    //movement related
     private bool m_isJumping;
     private Vector3 m_StartNode, m_FinishNode, m_ApexNode;
     public float m_JumpTime;
     private float m_CurrentJumpProgress;
 
+    //gameplay related
     private bool m_isPlayerAlive;
     public GameObject m_Dudesplosion;
     public GameObject m_CharacterModel;
@@ -35,8 +46,6 @@ public class DudeController : MonoBehaviour {
         }
     }
 
-    
-
     private void Start()
     {
         m_isJumping = false;
@@ -44,6 +53,11 @@ public class DudeController : MonoBehaviour {
         m_isPlayerAlive = true;
     }
 
+    /// <summary>
+    /// Sets the node to be moved to and stars the movement process
+    /// </summary>
+    /// <param name="startNode">Node on the board the player is starting at</param>
+    /// <param name="endNode">Node on the board wher ethe player should end up</param>
     public void MoveTo(NodeInfo startNode, NodeInfo endNode)
     {
         //get the start and end nodes
@@ -91,18 +105,13 @@ public class DudeController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// stuff to do when the player dies
+    /// </summary>
     public void DudeDeath()
     {
         GameObject explosion = Instantiate(m_Dudesplosion, gameObject.transform.position + transform.forward, Quaternion.identity);
         m_CharacterModel.SetActive(false);
         Destroy(explosion, 3.0f);
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            DudeDeath();
-        }
     }
 }

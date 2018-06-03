@@ -1,12 +1,23 @@
-﻿using System.Collections;
+﻿/*---------------------------------------------------------
+File Name: SwipeController.cs
+Purpose: monitors and processes "touch" (from a touch input or simulated with the mouse) input for the game.
+Author: Heath Parkes (gargit@gargit.net)
+Modified: 2018-06-03
+-----------------------------------------------------------
+Copyright 2018 AIE/HP
+---------------------------------------------------------*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SwipeController : MonoBehaviour
 {
+    //direction variables
     private bool m_Tap, m_SwipeUp, m_SwipeDown, m_SwipeRight, m_SwipeLeft, m_IsDragging = false;
     private Vector2 m_StartTouch, m_SwipeDelta;
 
+    //accessors
     public bool Tap
     {
         get
@@ -43,10 +54,13 @@ public class SwipeController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// process the touch input and set move direction if needed.
+    /// </summary>
     public void ProcessTouchInput()
     {
         //reset the bools
-        m_Tap = false;
+        //m_Tap = false;
         m_SwipeUp = false;
         m_SwipeDown = false;
         m_SwipeRight = false;
@@ -63,9 +77,14 @@ public class SwipeController : MonoBehaviour
             //Get the start of the tap position
             m_StartTouch = Input.mousePosition;
         }
-        else if (Input.GetMouseButtonUp(0)) //else if the mouse button ahs been released this fram
+        else if (Input.GetMouseButtonUp(0)) //else if the mouse button ahs been released this frame
         {
             m_IsDragging = false;
+            //move the player forward if a tap was made but no direction requirements met. This is so that you can just tap to move forward as a shortcut.
+            if(m_Tap)
+            {
+                m_SwipeUp = true;
+            }
             Reset();
         }
 
@@ -143,10 +162,15 @@ public class SwipeController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Resets the parameters after a movement has been made.
+    /// </summary>
     private void Reset()
     {
         m_StartTouch = Vector2.zero;
         m_SwipeDelta = Vector2.zero;
         m_IsDragging = false;
+        Debug.Log("Tap False");
+        m_Tap = false;
     }
 }

@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/*---------------------------------------------------------
+File Name: CameraFollow.cs
+Purpose: Attaches to the camera to follow the player.
+Author: Heath Parkes (gargit@gargit.net)
+Modified: 2018-06-03
+-----------------------------------------------------------
+Copyright 2018 AIE/HP
+---------------------------------------------------------*/
+
+using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
@@ -23,12 +32,20 @@ public class CameraFollow : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// set the target (player) to follow
+    /// </summary>
+    /// <param name="target">the target to follow</param>
     public void SetTarget(GameObject target)
     {
         m_Target = target.transform;
         m_IsFollowing = true;
     }
 
+    /// <summary>
+    /// Sets the offest to keep from the player
+    /// </summary>
+    /// <param name="target"></param>
     public void SetOffset(GameObject target)
     {
         m_Offset = transform.position - target.transform.position + new Vector3 (-2, 0, 0);
