@@ -1,11 +1,19 @@
-﻿using System.Collections;
+﻿/*---------------------------------------------------------
+File Name: HighScoreController.cs
+Purpose: This controls all access to the Gargit Games high score API
+Author: Heath Parkes (heath@gargit.games)
+Modified: 2018-09-28
+-----------------------------------------------------------
+Copyright 2018 HP
+---------------------------------------------------------*/
+
 using System.Collections.Generic;
 using UnityEngine;
 using System.Net;
 using System;
 using System.IO;
-using System.Text;
-using System.Security.Cryptography;
+//using System.Text;
+//using System.Security.Cryptography;
 
 public class HighScoreController : MonoBehaviour {
     
@@ -34,6 +42,7 @@ public class HighScoreController : MonoBehaviour {
     //The Login endpoint
     private const string m_LoginEndpoint = "/login";
 
+    //Accessors for player info
     public string Player_Username
     {
         get
@@ -112,17 +121,25 @@ public class HighScoreController : MonoBehaviour {
         return resultsString;
     }
 
+    /// <summary>
+    /// Passes the email and hashed password to the API for validation.
+    /// </summary>
+    /// <param name="email">the user's email to be validated</param>
+    /// <param name="password">the plain-text password to be validated. this is hashed before sending over the internet</param>
+    /// <returns>1 for valid login, 0 if not validated</returns>
     public int LogPlayerIn(string email, string password)
     {
+        Md5 md5 = new Md5();
         //convert the password into it's hashed form
-        string hashedPassword = getMD5Value(password);
+        //string hashedPassword = getMD5Value(password);
+        string hashedPassword = md5.FindHash(password);
         
         //call the API to log in
-        //post to api to get high scores
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format("http://{0}{1}?email={2}&password={3}", m_URL, m_LoginEndpoint, email, hashedPassword));
         request.Method = "POST";
         Debug.Log(String.Format("http://{0}{1}?email={2}&password={3}", m_URL, m_LoginEndpoint, email, hashedPassword));
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
         //process results
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
@@ -146,6 +163,7 @@ public class HighScoreController : MonoBehaviour {
                 PlayerPrefs.SetString(m_Player_Email_key, loginResponse.email);
                 PlayerPrefs.SetString(m_Player_Username_key, loginResponse.username);
                 PlayerPrefs.SetString(m_Player_Password_Key, hashedPassword);
+                PlayerPrefs.Save();
             }
 
             //return successful
@@ -158,15 +176,29 @@ public class HighScoreController : MonoBehaviour {
         return 0;
     }
 
+    /// <summary>
+    /// Removes saved player data
+    /// </summary>
     public void LogPlayerOut()
     {
         PlayerPrefs.DeleteKey(m_Player_Email_key);
         PlayerPrefs.DeleteKey(m_Player_Username_key);
         PlayerPrefs.DeleteKey(m_Player_ID_key);
         PlayerPrefs.DeleteKey(m_Player_Password_Key);
+        PlayerPrefs.Save();
+
+        m_Player_ID = 0;
+        m_Player_Password = null;
+        m_Player_Email = null;
+        m_Player_Username = null;
     }
 
-    public string getMD5Value(string value)
+    /// <summary>
+    /// hashes the passed string, used for hasing passwords to be sent over the internet
+    /// </summary>
+    /// <param name="value">string to be hashed</param>
+    /// <returns>returns the hashed string.</returns>
+    /*public string getMD5Value(string value)
     {
         if (value != null)
         {
@@ -189,9 +221,52 @@ public class HighScoreController : MonoBehaviour {
 
         //else return null
         return null;
+    }*/
+
+    /// <summary>
+    /// returns if there is a player logged in or not.
+    /// </summary>
+    /// <returns>true if there is stored credentials. False if no stored credentials</returns>
+    public bool isPlayerLoggedIn()
+    {
+        if(m_Player_Username != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public int SubmitScore(int score)
+    {
+        if(isPlayerLoggedIn())
+        {
+            //Create the score post to the API
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format("http://{0}{1}?user_id={2}&game_id={3}&score={4}", m_URL, m_HighScoresEndpoint, m_Player_ID, m_Game_ID, score));
+            request.Method = "POST";
+            Debug.Log(String.Format("http://{0}{1}?user_id={2}&game_id={3}&score={4}", m_URL, m_HighScoresEndpoint, m_Player_ID, m_Game_ID, score));
+            //send the post
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            //check to make sure the request was 200
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                //return success
+                return 1;
+            }
+        }
+
+        //return that nothing happened
+        return 0;
     }
 }
 
+
+/// <summary>
+/// these classes are used to store data from the API. the "serializable" tag allows them to be used by the JSON decombobulator to store api request results into.
+/// </summary>
 [Serializable]
 public class Score
 {

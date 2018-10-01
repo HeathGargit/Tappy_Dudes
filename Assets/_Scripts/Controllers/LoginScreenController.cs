@@ -24,7 +24,7 @@ public class LoginScreenController : MonoBehaviour {
 
     private void OnEnable()
     {
-        if(m_HighScoreController.Player_Email != null)
+        if(m_HighScoreController.isPlayerLoggedIn())
         {
             m_ResponseText.text = "Logged in as " + m_HighScoreController.Player_Username;
         }

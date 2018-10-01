@@ -313,48 +313,20 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 64947462}
   m_CullTransparentMesh: 0
---- !u!1 &96614643
-GameObject:
+--- !u!1001 &221827857
+Prefab:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 96614645}
-  - component: {fileID: 96614644}
-  m_Layer: 0
-  m_Name: HighScoreController
-  m_TagString: HighScoreSystem
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &96614644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 96614643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56816bb86aba5a448a4a54196a1a4207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_URL: 104.131.148.140/api
-  m_Game_ID: 1
---- !u!4 &96614645
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 96614643}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 252, y: 448, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4426065616223032, guid: 80b2fcdd4942d0f45a46bf3968df62eb, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 80b2fcdd4942d0f45a46bf3968df62eb, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &338356900
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,6 +1537,7 @@ GameObject:
   - component: {fileID: 1103145440}
   - component: {fileID: 1103145439}
   - component: {fileID: 1103145438}
+  - component: {fileID: 1103145441}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -1630,7 +1603,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 627306903}
+      - m_Target: {fileID: 1103145441}
         m_MethodName: LoadLevel
         m_Mode: 5
         m_Arguments:
@@ -1677,6 +1650,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1103145436}
   m_CullTransparentMesh: 0
+--- !u!114 &1103145441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1103145436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2deaed2739fd346bd3225f1b096f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1107830080
 GameObject:
   m_ObjectHideFlags: 0
@@ -2790,8 +2774,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1748079285}
-        m_MethodName: 
+      - m_Target: {fileID: 1748079287}
+        m_MethodName: LogUserOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

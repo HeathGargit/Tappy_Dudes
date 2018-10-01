@@ -2,7 +2,7 @@
 File Name: Game Controller.cs
 Purpose: Controls the game, including gameplay states and player input.
 Author: Heath Parkes (gargit@gargit.net)
-Modified: 2018-06-03
+Modified: 2018-09-28
 -----------------------------------------------------------
 Copyright 2018 AIE/HP
 ---------------------------------------------------------*/
@@ -35,12 +35,14 @@ public class GameController : MonoBehaviour {
     public Text m_ScoreLabel;
     private float m_InactiveTime;
     private int m_FurthestScoreProgress;
+    private HighScoreController m_HighScoreController;
 
 
     //game state stuff
     enum GameStates { Initialisation, Playing, GameOver};
     private GameStates m_GameState;
     public GameObject m_Menu;
+    public Text m_GameOverText;
 
     //Swipe control stuff.
     public SwipeController m_SwipeController;
@@ -59,6 +61,7 @@ public class GameController : MonoBehaviour {
         //set up gameobject references
         m_BoardController = m_Board.GetComponent<BoardController>();
         m_CameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+        m_HighScoreController = GameObject.FindGameObjectWithTag("HighScoreSystem").GetComponent<HighScoreController>();
 
         //set game state
         m_GameState = GameStates.Initialisation;
@@ -66,6 +69,7 @@ public class GameController : MonoBehaviour {
         //set up other variables
         m_CameraController.SetOffset(gameObject);
         m_Menu.SetActive(false);
+        m_GameOverText.text = "";
     }
 
     // Update is called once per frame
@@ -92,6 +96,8 @@ public class GameController : MonoBehaviour {
                     m_DeathSound.Play();
                     //set the gamestate to game over
                     m_GameState = GameStates.GameOver;
+                    //send the score to the high score system and set the game over text on the game over menu
+                    SubmitHighScore(m_PlayerScore);
                 }
                 break;
             //game over
@@ -126,6 +132,23 @@ public class GameController : MonoBehaviour {
             }
         }
 	}
+
+    private void SubmitHighScore(int m_PlayerScore)
+    {
+        m_GameOverText.text = "Your Score: " + m_PlayerScore + "\n";
+        if(m_HighScoreController.isPlayerLoggedIn())
+        {
+            int submitSuccess = m_HighScoreController.SubmitScore(m_PlayerScore);
+            if(submitSuccess == 1)
+            {
+                m_GameOverText.text += "Your Score was submitted to the high score system. Click \"High Scores\" to see this game's high scores!";
+            }
+            else
+            {
+                m_GameOverText.text += "There was an issue submitting your high score.";
+            }
+        }
+    }
 
     /// <summary>
     /// processes the player's input from all controllers
@@ -230,6 +253,7 @@ public class GameController : MonoBehaviour {
 
         //disable the menu
         m_Menu.SetActive(false);
+        m_GameOverText.text = "";
     }
 
     /// <summary>

@@ -14,6 +14,21 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
+    private void Awake()
+    {
+        //Singleton Control to make sure high scores available from all scenes and isn't reset, etc.
+        int singletonCount = FindObjectsOfType<LevelManager>().Length;
+        if (singletonCount > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+
     /// <summary>
     /// load the specified level.
     /// </summary>
