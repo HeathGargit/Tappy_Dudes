@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - HighScoreSystem
+  - GPGS
   layers:
   - Default
   - TransparentFX

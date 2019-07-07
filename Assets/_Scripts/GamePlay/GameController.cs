@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour {
     public Text m_ScoreLabel;
     private float m_InactiveTime;
     private int m_FurthestScoreProgress;
-    private HighScoreController m_HighScoreController;
+    //private HighScoreController m_HighScoreController;
 
 
     //game state stuff
@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour {
         //set up gameobject references
         m_BoardController = m_Board.GetComponent<BoardController>();
         m_CameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
-        m_HighScoreController = GameObject.FindGameObjectWithTag("HighScoreSystem").GetComponent<HighScoreController>();
+        //m_HighScoreController = GameObject.FindGameObjectWithTag("HighScoreSystem").GetComponent<HighScoreController>();
 
         //set game state
         m_GameState = GameStates.Initialisation;
@@ -136,7 +136,7 @@ public class GameController : MonoBehaviour {
     private void SubmitHighScore(int m_PlayerScore)
     {
         m_GameOverText.text = "Your Score: " + m_PlayerScore + "\n";
-        if(m_HighScoreController.isPlayerLoggedIn())
+        /*if(m_HighScoreController.isPlayerLoggedIn())
         {
             int submitSuccess = m_HighScoreController.SubmitScore(m_PlayerScore);
             if(submitSuccess == 1)
@@ -147,7 +147,7 @@ public class GameController : MonoBehaviour {
             {
                 m_GameOverText.text += "There was an issue submitting your high score.";
             }
-        }
+        }*/
     }
 
     /// <summary>
